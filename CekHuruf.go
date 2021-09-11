@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 func main(){
@@ -15,6 +16,9 @@ func main(){
 	fmt.Print("Pilih jenis pengecekan ('number' or 'lowercase') : ")
 	fmt.Scan(&filter_type)
 	fmt.Println("======================================")
+
+	filter_type = strings.ToLower(filter_type)
+
 	if filter_type != "number" && filter_type != "lowercase" {
 		fmt.Println("Pilihan pengecekan tidak tersedia!")
 	}else{
