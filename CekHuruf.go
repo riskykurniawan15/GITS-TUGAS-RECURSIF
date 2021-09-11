@@ -27,6 +27,10 @@ func main(){
 }
 
 func check(character string, filter_type string) int {
+	if character == "" {
+		return 0
+	}
+	
 	var filter string
 	if filter_type == "number" {
 		filter = "1234567890"

@@ -27,7 +27,7 @@ func main(){
 
 func getDeret(jml int, awal float64) string {
 	if jml <= 0 {
-		fmt.Println("0 = 0")
+		return "0 = 0"
 	}
 
 	var deret string = runDeret(1, jml, awal, 0, "")
@@ -142,7 +142,7 @@ func runDeretPecahan(n int, jml int, pembilang int, penyebut int, x string, sum_
 
 func getDeretPecahan(jml int, x string) string {
 	if jml <= 0 {
-		fmt.Println("0 = 0")
+		return "0 = 0"
 	}
 
 	var deret string
