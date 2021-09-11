@@ -162,8 +162,8 @@ func perkecilPecahan(sum_pembilang int, sum_penyebut int, x string) string {
 	
 			return perkecilPecahan(sum_pembilang, sum_penyebut, x)
 		}else if (sum_pembilang%7) == 0 && (sum_penyebut%7) == 0 {
-			sum_pembilang /= 5
-			sum_penyebut /= 5
+			sum_pembilang /= 7
+			sum_penyebut /= 7
 	
 			return perkecilPecahan(sum_pembilang, sum_penyebut, x)
 		}
