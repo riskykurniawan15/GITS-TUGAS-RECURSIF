@@ -59,6 +59,63 @@ func runDeret(n int, jml int, awal float64, sum float64, temp string) string{
 	return temp
 }
 
+func getDeretPecahan(jml int, x string) string {
+	if jml <= 0 {
+		return "0 = 0"
+	}
+
+	var deret string
+	
+	if x == "pembilang" {
+		deret = runDeretPecahan(1, jml, 2, 1, x, 0, 0, "")
+	}else if x == "penyebut"{
+		deret = runDeretPecahan(1, jml, 1, 2, x, 0, 0, "")
+	}else{
+		return "error code x | set parameter to 'pembilang' or 'penyebut'"
+	}
+
+	result := strings.Split(deret, " = ")
+	return result[1] + " = " + result[0]
+}
+
+func runDeretPecahan(n int, jml int, pembilang int, penyebut int, x string, sum_pembilang int, sum_penyebut int, temp string) string{
+	sum_pembilang, sum_penyebut = sumPecahan(pembilang, penyebut, sum_pembilang, sum_penyebut)
+	if x == "pembilang" {
+		temp = fmt.Sprintf("%dx/%d", pembilang, penyebut)
+		penyebut += 1
+		pembilang = penyebut * penyebut
+	}else if x == "penyebut" {
+		temp = fmt.Sprintf("%d/%dx", pembilang, penyebut)
+		pembilang += 1
+		penyebut = pembilang * pembilang
+	}
+	
+	if n != jml {
+		temp += fmt.Sprintf(" + ")
+	}
+
+	if n == jml {
+		var perkecil string = perkecilPecahan(sum_pembilang, sum_penyebut, x)
+		var sum_temp string = ""
+		if x == "pembilang" {
+			sum_temp = fmt.Sprintf("%dx/%d", sum_pembilang, sum_penyebut)
+		}else if x == "penyebut" {
+			sum_temp = fmt.Sprintf("%d/%dx", sum_pembilang, sum_penyebut)
+		}
+
+		temp = fmt.Sprintf("%s = %s", temp, sum_temp)
+
+		if perkecil != ("-> "+sum_temp) {
+			temp += " " + perkecil
+		}
+
+		return temp
+	}
+	temp += runDeretPecahan(n + 1, jml, pembilang, penyebut, x, sum_pembilang, sum_penyebut, temp)
+
+	return temp
+}
+
 func sumPecahan(pembilang int, penyebut int, sum_pembilang int, sum_penyebut int) (int, int){
 	if sum_pembilang == 0 && sum_penyebut == 0 {
 		return pembilang, penyebut
@@ -72,10 +129,6 @@ func sumPecahan(pembilang int, penyebut int, sum_pembilang int, sum_penyebut int
 }
 
 func perkecilPecahan(sum_pembilang int, sum_penyebut int, x string) string {
-	if sum_pembilang == sum_penyebut {
-		return "-> 1"
-	}
-
 	if sum_pembilang != 1 && sum_penyebut != 1 {
 		if (sum_pembilang%2) == 0 && (sum_penyebut%2) == 0 {
 			sum_pembilang /= 2
@@ -107,54 +160,4 @@ func perkecilPecahan(sum_pembilang int, sum_penyebut int, x string) string {
 	}
 
 	return ""
-}
-
-func runDeretPecahan(n int, jml int, pembilang int, penyebut int, x string, sum_pembilang int, sum_penyebut int, temp string) string{
-	sum_pembilang, sum_penyebut = sumPecahan(pembilang, penyebut, sum_pembilang, sum_penyebut)
-	if x == "pembilang" {
-		temp = fmt.Sprintf("%dx/%d", pembilang, penyebut)
-		penyebut += 1
-		pembilang = penyebut * penyebut
-	}else if x == "penyebut" {
-		temp = fmt.Sprintf("%d/%dx", pembilang, penyebut)
-		pembilang += 1
-		penyebut = pembilang * pembilang
-	}
-	
-	if n != jml {
-		temp += fmt.Sprintf(" + ")
-	}
-
-	if n == jml {
-		var perkecil string = perkecilPecahan(sum_pembilang, sum_penyebut, x)
-		if x == "pembilang" {
-			temp = fmt.Sprintf("%s = %dx/%d", temp, sum_pembilang, sum_penyebut)
-		}else if x == "penyebut" {
-			temp = fmt.Sprintf("%s = %d/%dx", temp, sum_pembilang, sum_penyebut)
-		}
-
-		return temp + " " + perkecil
-	}
-	temp += runDeretPecahan(n + 1, jml, pembilang, penyebut, x, sum_pembilang, sum_penyebut, temp)
-
-	return temp
-}
-
-func getDeretPecahan(jml int, x string) string {
-	if jml <= 0 {
-		return "0 = 0"
-	}
-
-	var deret string
-	
-	if x == "pembilang" {
-		deret = runDeretPecahan(1, jml, 2, 1, x, 0, 0, "")
-	}else if x == "penyebut"{
-		deret = runDeretPecahan(1, jml, 1, 2, x, 0, 0, "")
-	}else{
-		return "error code x | set parameter to 'pembilang' or 'penyebut'"
-	}
-
-	result := strings.Split(deret, " = ")
-	return result[1] + " = " + result[0]
 }
