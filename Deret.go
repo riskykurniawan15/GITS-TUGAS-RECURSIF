@@ -36,11 +36,11 @@ func getDeret(jml int, awal float64) string {
 }
 
 func runDeret(n int, jml int, awal float64, sum float64, temp string) string{
-	temp = fmt.Sprintf("%.2f", awal)
+	temp = roundComma(fmt.Sprintf("%.3f", awal))
 	if (n%3) == 0 {
-		var n3 float64 = ((awal*2) * 66.6) / 100
+		var n3 float64 = ((awal*2) * 66.66) / 100
 		sum += n3
-		temp = fmt.Sprintf("%.2f", n3)
+		temp = roundComma(fmt.Sprintf("%.3f", n3))
 	}else{
 		sum += awal
 		awal = awal / 2
@@ -51,12 +51,28 @@ func runDeret(n int, jml int, awal float64, sum float64, temp string) string{
 	}
 
 	if n == jml {
-		return fmt.Sprintf("%s = %.2f", temp, sum)
+		return fmt.Sprintf("%s = %s", temp, roundComma(fmt.Sprintf("%.3f", sum)))
 	}
 
 	temp += runDeret(n + 1, jml, awal, sum, temp)
 
 	return temp
+}
+
+func roundComma(number string) string {
+	value := strings.Split(number, ".")
+
+	value[1] = string(value[1][0]) + string(value[1][1])
+
+	if value[1] == "00" {
+		return value[0]
+	}
+
+	if string(value[1][1]) == "0" {
+		return value[0] + "." +string(value[1][0])
+	}
+
+	return value[0] + "." + value[1]
 }
 
 func getDeretPecahan(jml int, x string) string {
