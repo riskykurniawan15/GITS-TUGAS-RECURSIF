@@ -36,15 +36,10 @@ func getDeret(jml int, awal float64) string {
 }
 
 func runDeret(n int, jml int, awal float64, sum float64, temp string) string{
-	temp = roundComma(fmt.Sprintf("%.3f", awal))
-	if (n%3) == 0 {
-		var n3 float64 = ((awal*2) * 66.66) / 100
-		sum += n3
-		temp = roundComma(fmt.Sprintf("%.3f", n3))
-	}else{
-		sum += awal
-		awal = awal / 2
-	}
+	var n3 float64 = awal / float64(n)
+	temp = roundComma(fmt.Sprintf("%.3f", n3))
+	
+	sum += n3
 	
 	if n != jml {
 		temp += fmt.Sprintf(" + ")
